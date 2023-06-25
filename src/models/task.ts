@@ -7,6 +7,7 @@ export default class Task extends Model {
   public title!: string;
   public description!: string;
   public completed?: boolean;
+  public completions?: Array<Date>;
 }
 export const TaskInit = (sequelize: Sequelize) => {
   Task.init({
@@ -26,6 +27,10 @@ export const TaskInit = (sequelize: Sequelize) => {
     completed: {
       type: DataType.BOOLEAN,
       defaultValue: false,
+    },
+    completions: {
+      type: DataType.ARRAY(DataType.DATE),
+      defaultValue: [],
     }
   }, {
     sequelize,

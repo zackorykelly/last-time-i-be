@@ -70,7 +70,9 @@ app.patch('/tasks/:id', async (req: Request, res: Response) => {
   } catch (error) {
     //Something went wrong
     console.error(error);
-    return res.status(500).json({ error: 'Server error.'})
+    if (!res.headersSent) {
+      return res.status(500).json({ error: 'Server error.'})
+    }  
   }
 });
 
@@ -92,11 +94,15 @@ app.delete('/tasks/:id', async (req: Request, res: Response) => {
   } catch (error) {
     //Something went wrong
     console.error(error);
-    return res.status(500).json({ error: 'Server error.'})
+    if (!res.headersSent) {
+      return res.status(500).json({ error: 'Server error.'})
+    }  
   }
 });
 
 //Run server
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
+
+export {app, server}; //For testing purposes
